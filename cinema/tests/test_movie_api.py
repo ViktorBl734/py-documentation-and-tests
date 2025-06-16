@@ -167,10 +167,10 @@ class MovieViewSetTest(TestCase):
         self.client.force_authenticate(self.user)
 
     def test_movies_list(self) -> None:
-        movie1 = Movie.objects.create(title="Movie One")
-        movie2 = Movie.objects.create(title="Movie Two")
+        movie1 = Movie.objects.create(title="Movie One", duration=120)
+        movie2 = Movie.objects.create(title="Movie Two", duration=90)
 
-        url = reverse("movie-list")
+        url = reverse("cinema:movie-list")
         res = self.client.get(url)
 
         movies = Movie.objects.all()
@@ -180,8 +180,8 @@ class MovieViewSetTest(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_movies_retrieve(self) -> None:
-        movie = Movie.objects.create(title="Movie Detail")
-        url = reverse("movie-detail", args=[movie.id])
+        movie = Movie.objects.create(title="Movie Detail", duration=100)
+        url = reverse("cinema:movie-detail", args=[movie.id])
         res = self.client.get(url)
 
         serializer = MovieDetailSerializer(movie)
